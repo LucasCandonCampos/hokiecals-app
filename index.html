@@ -829,6 +829,29 @@
       .countdown-digit { width: 58px; height: 58px; font-size: 26px; }
       .screenshot-frame img { width: 160px; }
       .screenshot-frame.center img { width: 185px; }
+
+      /* Stack signup form vertically on mobile */
+      .signup-form {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 16px;
+        padding: 8px;
+        gap: 8px;
+      }
+      .signup-form input {
+        padding: 14px 16px;
+        font-size: 15px;
+        text-align: center;
+      }
+      .signup-form button {
+        width: 100%;
+        padding: 14px 20px;
+        border-radius: 10px;
+        font-size: 15px;
+      }
+      .cta-banner .signup-form {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
