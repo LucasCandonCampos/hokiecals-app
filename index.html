@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HokieCals — The VT Dining Calorie Tracker</title>
+  <meta name="description" content="HokieCals is the only calorie and nutrition tracker built specifically for Virginia Tech students. Log meals from any VT dining hall in seconds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --maroon: #861F41;
+      --maroon-dark: #6a1833;
+      --maroon-light: #a8254f;
+      --orange: #E5751F;
+      --orange-light: #f08c45;
+      --bg: #0f0f0f;
+      --bg2: #181818;
+      --bg3: #222222;
+      --text: #f5f5f5;
+      --text-muted: #a0a0a0;
+      --border: rgba(255,255,255,0.08);
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 5%;
+      background: rgba(15,15,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      background: var(--maroon);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -1px;
+    }
+
+    .nav-logo-text {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--maroon);
+      color: #fff !important;
+      padding: 9px 20px;
+      border-radius: 50px;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--maroon-light) !important; color: #fff !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(134,31,65,0.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(134,31,65,0.15);
+      border: 1px solid rgba(134,31,65,0.4);
+      color: #e8a0b4;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: var(--maroon-light);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--maroon-light), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--text-muted);
+      max-width: 580px;
+      margin: 0 auto 44px;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--maroon);
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      transition: all 0.2s;
+      box-shadow: 0 4px 24px rgba(134,31,65,0.4);
+    }
+
+    .btn-primary:hover {
+      background: var(--maroon-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(134,31,65,0.5);
+    }
+
+    .btn-primary svg { width: 20px; height: 20px; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 16px 28px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.2);
+      color: var(--text);
+    }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 5%;
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, var(--maroon-light), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 5%; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--maroon-light);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    /* ── FEATURES ── */
+    #features { background: var(--bg); }
+
+    .features-header { text-align: center; margin-bottom: 64px; }
+    .features-header .section-sub { margin: 0 auto; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--maroon), var(--orange));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover { border-color: rgba(134,31,65,0.4); transform: translateY(-4px); }
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      width: 52px; height: 52px;
+      background: rgba(134,31,65,0.15);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how-it-works { background: var(--bg2); }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+      max-width: 1000px;
+      margin: 56px auto 0;
+      text-align: center;
+    }
+
+    .how-step { position: relative; }
+
+    .step-number {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--maroon), var(--orange));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      margin: 0 auto 20px;
+      color: #fff;
+    }
+
+    .how-step h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .how-step p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── WHY HOKIECALS ── */
+    #why { background: var(--bg); }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .why-list { list-style: none; margin-top: 32px; }
+
+    .why-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .why-list li:last-child { border-bottom: none; }
+
+    .why-check {
+      width: 28px; height: 28px;
+      background: rgba(134,31,65,0.15);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--maroon-light);
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .why-list li h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .why-list li p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .why-visual {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .mock-phone {
+      width: 200px;
+      height: 380px;
+      background: var(--bg3);
+      border-radius: 32px;
+      border: 2px solid rgba(255,255,255,0.1);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px;
+    }
+
+    .mock-bar {
+      width: 100%;
+      height: 10px;
+      border-radius: 4px;
+      background: rgba(134,31,65,0.3);
+    }
+
+    .mock-bar.full { background: var(--maroon); }
+    .mock-bar.w80 { width: 80%; }
+    .mock-bar.w60 { width: 60%; }
+    .mock-bar.w40 { width: 40%; background: var(--orange); }
+
+    .mock-cal {
+      font-size: 36px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--maroon-light), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .mock-label { font-size: 11px; color: var(--text-muted); }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--maroon-dark) 0%, var(--maroon) 50%, var(--maroon-light) 100%);
+      padding: 80px 5%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(229,117,31,0.2) 0%, transparent 70%);
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .cta-banner p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      color: var(--maroon);
+      text-decoration: none;
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 800;
+      transition: all 0.2s;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    }
+
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+
+    /* ── SUPPORT ── */
+    #support {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+
+    .support-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .support-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .support-card:hover { border-color: rgba(134,31,65,0.4); transform: translateY(-2px); }
+
+    .support-card-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .support-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .support-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .support-card a {
+      color: var(--maroon-light);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .support-card a:hover { color: var(--orange-light); }
+
+    .faq-list { margin-top: 48px; }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 24px 0;
+    }
+
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+
+    .faq-q {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .faq-a {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .faq-a a {
+      color: var(--maroon-light);
+      text-decoration: none;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 40px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .footer-logo-icon {
+      width: 30px; height: 30px;
+      background: var(--maroon);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .footer-logo-text {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .why-grid { grid-template-columns: 1fr; }
+      .why-visual { display: none; }
+      .stats-strip { gap: 40px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">HC</div>
+      <span class="nav-logo-text">HokieCals</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#why">Why HokieCals</a></li>
+      <li><a href="#support">Support</a></li>
+      <li><a href="#" class="nav-cta">Download</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div>
+      <div class="hero-badge">Built for Virginia Tech Students</div>
+      <h1>Track Calories at<br/><span>Every VT Dining Hall</span></h1>
+      <p class="hero-sub">HokieCals is the only nutrition tracker with real-time VT dining data built in. Log your meals from West End, D2, Turner Place, and more — in seconds, not minutes.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-primary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          Download on the App Store
+        </a>
+        <a href="#features" class="btn-secondary">See Features →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-number">1,000+</div>
+      <div class="stat-label">VT Dining Items Tracked</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">6+</div>
+      <div class="stat-label">Dining Halls Covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">Free</div>
+      <div class="stat-label">To Download</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">Built by a Hokie</div>
+      <div class="stat-label">For Hokies</div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="features-header">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Everything you need to eat smarter on campus</h2>
+      <p class="section-sub">No more manually entering nutrition data. HokieCals has the entire VT dining menu built right in.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🍽️</div>
+        <h3>VT Dining Hall Data</h3>
+        <p>Instantly log meals from West End, D2, Turner Place, Hokie Grill, and every other VT dining location — with full nutritional data for every item.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Calorie & Macro Tracking</h3>
+        <p>Track calories, protein, carbs, fat, and fiber every day. Your personalized goals are calculated using the industry-standard Mifflin-St Jeor formula.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Personalized Goals</h3>
+        <p>Set goals based on your body stats, activity level, and target — whether you want to lose weight, build muscle, or maintain.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📷</div>
+        <h3>Barcode Scanner</h3>
+        <p>Eating off-campus? Scan any barcode to instantly log packaged foods and snacks from the grocery store or convenience stores.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Progress Tracking</h3>
+        <p>Log your weight over time, upload progress photos, and view weekly and monthly summaries to stay motivated and on track.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Log in Seconds</h3>
+        <p>What used to take 10 minutes of manually entering data into MyFitnessPal now takes seconds. HokieCals is built for your busy student life.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works">
+    <div style="text-align:center; max-width:600px; margin:0 auto;">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">From dining hall to logged in three steps</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="step-number">1</div>
+        <h3>Set Your Goals</h3>
+        <p>Enter your height, weight, age, and activity level. HokieCals calculates your personalized daily calorie and macro targets automatically.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-number">2</div>
+        <h3>Browse the Menu</h3>
+        <p>Open the app, select your dining hall, and browse today's live menu. Every item already has its full nutrition data loaded and ready.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-number">3</div>
+        <h3>Tap to Log</h3>
+        <p>Tap the items you ate and they're instantly added to your daily log. Your calorie and macro totals update in real time.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-number">4</div>
+        <h3>Track Your Progress</h3>
+        <p>Check your daily dashboard, log your weight, and review weekly summaries to stay consistent and reach your health goals.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY HOKIECALS -->
+  <section id="why">
+    <div class="why-grid">
+      <div>
+        <div class="section-label">Why HokieCals</div>
+        <h2 class="section-title">The app other calorie trackers can't replace</h2>
+        <p class="section-sub">Generic apps don't know what's on the menu at D2 today. HokieCals does.</p>
+        <ul class="why-list">
+          <li>
+            <div class="why-check">✓</div>
+            <div>
+              <h4>VT-Specific Data</h4>
+              <p>No other calorie app has Virginia Tech dining hall data built in. Stop manually entering every meal from the FoodPro website.</p>
+            </div>
+          </li>
+          <li>
+            <div class="why-check">✓</div>
+            <div>
+              <h4>Built by a VT Student</h4>
+              <p>HokieCals was created by a fellow Hokie who was frustrated by the same problem you have. It's built with students in mind.</p>
+            </div>
+          </li>
+          <li>
+            <div class="why-check">✓</div>
+            <div>
+              <h4>Accurate Nutrition Science</h4>
+              <p>Goals are calculated using the same Mifflin-St Jeor formula used by MyFitnessPal and other top nutrition apps.</p>
+            </div>
+          </li>
+          <li>
+            <div class="why-check">✓</div>
+            <div>
+              <h4>Saves You Time Every Day</h4>
+              <p>What used to take 10+ minutes of manual data entry now takes seconds. That time adds up over a semester.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="why-visual">
+        <div class="mock-phone">
+          <div class="mock-cal">1,840</div>
+          <div class="mock-label">calories remaining</div>
+          <div style="width:100%; margin-top:16px;">
+            <div class="mock-label" style="text-align:left; margin-bottom:6px;">Protein</div>
+            <div class="mock-bar w80 full"></div>
+          </div>
+          <div style="width:100%;">
+            <div class="mock-label" style="text-align:left; margin-bottom:6px;">Carbs</div>
+            <div class="mock-bar w60"></div>
+          </div>
+          <div style="width:100%;">
+            <div class="mock-label" style="text-align:left; margin-bottom:6px;">Fat</div>
+            <div class="mock-bar w40"></div>
+          </div>
+          <div style="margin-top:12px; font-size:11px; color:var(--text-muted);">West End Dining • Today</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <h2>Start tracking smarter today</h2>
+    <p>Download HokieCals for free and never manually enter a dining hall meal again.</p>
+    <a href="#" class="btn-white">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download on the App Store
+    </a>
+  </div>
+
+  <!-- SUPPORT -->
+  <section id="support">
+    <div class="support-inner">
+      <div class="section-label">Support</div>
+      <h2 class="section-title">We're here to help</h2>
+      <p class="section-sub">Have a question, found a bug, or want to request a feature? Reach out — we respond quickly.</p>
+
+      <div class="support-grid">
+        <div class="support-card">
+          <div class="support-card-icon">✉️</div>
+          <h3>Email Support</h3>
+          <p>Send us a message and we'll get back to you as soon as possible — usually within 24 hours.</p>
+          <a href="mailto:hokiecals@gmail.com">hokiecals@gmail.com</a>
+        </div>
+        <div class="support-card">
+          <div class="support-card-icon">🐛</div>
+          <h3>Report a Bug</h3>
+          <p>Found something that isn't working right? Let us know so we can fix it in the next update.</p>
+          <a href="mailto:hokiecals@gmail.com?subject=Bug Report">Report a Bug</a>
+        </div>
+        <div class="support-card">
+          <div class="support-card-icon">💡</div>
+          <h3>Feature Requests</h3>
+          <p>Have an idea that would make HokieCals better? We'd love to hear it — many features come from student feedback.</p>
+          <a href="mailto:hokiecals@gmail.com?subject=Feature Request">Submit an Idea</a>
+        </div>
+      </div>
+
+      <div class="faq-list">
+        <div style="margin-top:56px; margin-bottom:32px;">
+          <div class="section-label">FAQ</div>
+          <h3 style="font-size:24px; font-weight:800; letter-spacing:-0.5px;">Frequently Asked Questions</h3>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Is HokieCals free to download?</div>
+          <div class="faq-a">Yes, HokieCals is free to download on the App Store. Core features including VT dining hall logging are available at no cost.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Which dining halls are supported?</div>
+          <div class="faq-a">HokieCals supports all major Virginia Tech dining locations, including West End Market, D2 (Dietrick), Turner Place, Hokie Grill, and more. We update the menu data regularly.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How is my calorie goal calculated?</div>
+          <div class="faq-a">We use the Mifflin-St Jeor formula — the same industry-standard method used by MyFitnessPal and other leading nutrition apps — combined with your activity level and personal goals.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Can I log food from off-campus restaurants?</div>
+          <div class="faq-a">Yes. HokieCals includes a barcode scanner for packaged foods and a general food database for logging meals from anywhere, not just VT dining halls.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How do I delete my account or data?</div>
+          <div class="faq-a">You can request account deletion or data removal by emailing us at <a href="mailto:hokiecals@gmail.com">hokiecals@gmail.com</a>. We will process your request within 7 days.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">I found a menu item that's missing or incorrect. What should I do?</div>
+          <div class="faq-a">Please email us at <a href="mailto:hokiecals@gmail.com">hokiecals@gmail.com</a> with the details and we'll get it corrected as quickly as possible.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="footer-logo">
+      <div class="footer-logo-icon">HC</div>
+      <span class="footer-logo-text">HokieCals</span>
+    </a>
+    <ul class="footer-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#support">Support</a></li>
+      <li><a href="https://lucascandoncampos.github.io/hokiecals-privacy-policy/">Privacy Policy</a></li>
+      <li><a href="mailto:hokiecals@gmail.com">Contact</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 HokieCals. Not affiliated with Virginia Tech.</span>
+  </footer>
+
+</body>
+</html>
