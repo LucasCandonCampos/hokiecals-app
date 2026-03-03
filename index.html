@@ -44,7 +44,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 5%;
+      padding: 14px 5%;
       background: rgba(15,15,15,0.85);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
@@ -57,15 +57,10 @@
       text-decoration: none;
     }
 
-    .nav-logo-icon {
+    .nav-logo-img {
       width: 36px; height: 36px;
-      background: var(--maroon);
       border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: -1px;
+      object-fit: cover;
     }
 
     .nav-logo-text {
@@ -180,56 +175,133 @@
       line-height: 1.7;
     }
 
-    .hero-buttons {
+    /* ── COUNTDOWN ── */
+    .countdown-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .countdown-label {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .countdown-timer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .countdown-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .countdown-digit {
+      background: var(--bg2);
+      border: 1px solid rgba(134,31,65,0.5);
+      border-radius: 12px;
+      width: 72px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--text);
+      box-shadow: 0 0 20px rgba(134,31,65,0.2);
     }
 
-    .btn-primary {
-      display: inline-flex;
+    .countdown-unit-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .countdown-sep {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--maroon-light);
+      margin-bottom: 20px;
+    }
+
+    /* ── SIGNUP FORM ── */
+    .signup-form {
+      display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 0;
+      max-width: 460px;
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid rgba(134,31,65,0.4);
+      border-radius: 50px;
+      padding: 6px 6px 6px 20px;
+      box-shadow: 0 4px 32px rgba(134,31,65,0.2);
+    }
+
+    .signup-form input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    .signup-form input::placeholder { color: var(--text-muted); }
+
+    .signup-form button {
       background: var(--maroon);
       color: #fff;
-      text-decoration: none;
-      padding: 16px 32px;
+      border: none;
       border-radius: 50px;
-      font-size: 16px;
+      padding: 12px 24px;
+      font-size: 14px;
       font-weight: 700;
-      transition: all 0.2s;
-      box-shadow: 0 4px 24px rgba(134,31,65,0.4);
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
     }
 
-    .btn-primary:hover {
-      background: var(--maroon-light);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(134,31,65,0.5);
-    }
+    .signup-form button:hover { background: var(--maroon-light); }
 
-    .btn-primary svg { width: 20px; height: 20px; }
-
-    .btn-secondary {
-      display: inline-flex;
+    .signup-success {
+      display: none;
       align-items: center;
-      gap: 8px;
-      background: transparent;
+      gap: 10px;
+      background: rgba(134,31,65,0.15);
+      border: 1px solid rgba(134,31,65,0.4);
+      color: #e8a0b4;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 24px;
+      border-radius: 50px;
+    }
+
+    .signup-success.visible { display: flex; }
+
+    .hero-secondary-link {
       color: var(--text-muted);
       text-decoration: none;
-      padding: 16px 28px;
-      border-radius: 50px;
-      font-size: 15px;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      transition: all 0.2s;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
     }
 
-    .btn-secondary:hover {
-      border-color: rgba(255,255,255,0.2);
-      color: var(--text);
-    }
+    .hero-secondary-link:hover { color: var(--text); }
 
     /* ── STATS STRIP ── */
     .stats-strip {
@@ -289,8 +361,80 @@
       line-height: 1.7;
     }
 
+    /* ── SCREENSHOTS ── */
+    #screenshots {
+      background: var(--bg);
+      padding: 80px 5%;
+    }
+
+    .screenshots-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .screenshots-header .section-sub { margin: 0 auto; }
+
+    .screenshots-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .screenshot-frame {
+      position: relative;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(134,31,65,0.15);
+      transition: transform 0.3s, box-shadow 0.3s;
+      flex-shrink: 0;
+    }
+
+    .screenshot-frame:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(134,31,65,0.3);
+    }
+
+    .screenshot-frame.center {
+      transform: scale(1.06);
+      z-index: 2;
+      border-color: rgba(134,31,65,0.4);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 40px rgba(134,31,65,0.2);
+    }
+
+    .screenshot-frame.center:hover {
+      transform: scale(1.06) translateY(-8px);
+    }
+
+    .screenshot-frame img {
+      display: block;
+      width: 200px;
+      height: auto;
+      border-radius: 30px;
+    }
+
+    .screenshot-frame.center img {
+      width: 230px;
+    }
+
+    .screenshot-caption {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .screenshot-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     /* ── FEATURES ── */
-    #features { background: var(--bg); }
+    #features { background: var(--bg2); }
 
     .features-header { text-align: center; margin-bottom: 64px; }
     .features-header .section-sub { margin: 0 auto; }
@@ -304,7 +448,7 @@
     }
 
     .feature-card {
-      background: var(--bg2);
+      background: var(--bg3);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 32px;
@@ -349,7 +493,7 @@
     }
 
     /* ── HOW IT WORKS ── */
-    #how-it-works { background: var(--bg2); }
+    #how-it-works { background: var(--bg); }
 
     .how-grid {
       display: grid;
@@ -386,7 +530,7 @@
     }
 
     /* ── WHY HOKIECALS ── */
-    #why { background: var(--bg); }
+    #why { background: var(--bg2); }
 
     .why-grid {
       display: grid;
@@ -434,7 +578,7 @@
     }
 
     .why-visual {
-      background: var(--bg2);
+      background: var(--bg3);
       border: 1px solid var(--border);
       border-radius: 24px;
       padding: 40px;
@@ -444,7 +588,7 @@
     .mock-phone {
       width: 200px;
       height: 380px;
-      background: var(--bg3);
+      background: #0a0a0a;
       border-radius: 32px;
       border: 2px solid rgba(255,255,255,0.1);
       margin: 0 auto;
@@ -512,22 +656,32 @@
       margin-right: auto;
     }
 
-    .btn-white {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #fff;
-      color: var(--maroon);
-      text-decoration: none;
-      padding: 16px 36px;
-      border-radius: 50px;
-      font-size: 16px;
-      font-weight: 800;
-      transition: all 0.2s;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    .cta-banner .signup-form {
+      margin: 0 auto;
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.25);
     }
 
-    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .cta-banner .signup-form input { color: #fff; }
+    .cta-banner .signup-form input::placeholder { color: rgba(255,255,255,0.5); }
+
+    .cta-banner .signup-form button {
+      background: #fff;
+      color: var(--maroon);
+    }
+
+    .cta-banner .signup-form button:hover {
+      background: rgba(255,255,255,0.9);
+    }
+
+    .cta-banner .countdown-digit {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .cta-banner .countdown-sep { color: rgba(255,255,255,0.5); }
+    .cta-banner .countdown-unit-label { color: rgba(255,255,255,0.6); }
+    .cta-banner .countdown-label { color: rgba(255,255,255,0.9); }
 
     /* ── SUPPORT ── */
     #support {
@@ -632,14 +786,10 @@
       text-decoration: none;
     }
 
-    .footer-logo-icon {
+    .footer-logo-img {
       width: 30px; height: 30px;
-      background: var(--maroon);
       border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-      font-weight: 900;
-      color: #fff;
+      object-fit: cover;
     }
 
     .footer-logo-text {
@@ -676,6 +826,9 @@
       .why-visual { display: none; }
       .stats-strip { gap: 40px; }
       footer { flex-direction: column; align-items: flex-start; }
+      .countdown-digit { width: 58px; height: 58px; font-size: 26px; }
+      .screenshot-frame img { width: 160px; }
+      .screenshot-frame.center img { width: 185px; }
     }
   </style>
 </head>
@@ -684,15 +837,15 @@
   <!-- NAV -->
   <nav>
     <a href="#" class="nav-logo">
-      <div class="nav-logo-icon">HC</div>
+      <img src="logo.png" alt="HokieCals Logo" class="nav-logo-img" />
       <span class="nav-logo-text">HokieCals</span>
     </a>
     <ul class="nav-links">
+      <li><a href="#screenshots">Screenshots</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#how-it-works">How It Works</a></li>
-      <li><a href="#why">Why HokieCals</a></li>
       <li><a href="#support">Support</a></li>
-      <li><a href="#" class="nav-cta">Download</a></li>
+      <li><a href="#notify" class="nav-cta">Get Notified</a></li>
     </ul>
   </nav>
 
@@ -700,15 +853,37 @@
   <section class="hero">
     <div class="hero-glow"></div>
     <div>
-      <div class="hero-badge">Built for Virginia Tech Students</div>
+      <div class="hero-badge">Launching in 48 Hours — Built for Virginia Tech</div>
       <h1>Track Calories at<br/><span>Every VT Dining Hall</span></h1>
       <p class="hero-sub">HokieCals is the only nutrition tracker with real-time VT dining data built in. Log your meals from West End, D2, Turner Place, and more — in seconds, not minutes.</p>
-      <div class="hero-buttons">
-        <a href="#" class="btn-primary">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          Download on the App Store
-        </a>
-        <a href="#features" class="btn-secondary">See Features →</a>
+
+      <div class="countdown-wrapper" id="hero-countdown-wrapper">
+        <div class="countdown-label">App Store Launch In</div>
+        <div class="countdown-timer">
+          <div class="countdown-unit">
+            <div class="countdown-digit" id="hero-hours">48</div>
+            <div class="countdown-unit-label">Hours</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <div class="countdown-digit" id="hero-minutes">00</div>
+            <div class="countdown-unit-label">Minutes</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <div class="countdown-digit" id="hero-seconds">00</div>
+            <div class="countdown-unit-label">Seconds</div>
+          </div>
+        </div>
+
+        <form class="signup-form" id="hero-form" onsubmit="handleSignup(event, 'hero')">
+          <input type="email" placeholder="Enter your VT email to get notified..." required />
+          <button type="submit">Notify Me</button>
+        </form>
+        <div class="signup-success" id="hero-success">
+          ✓ You're on the list! We'll email you the moment it's live.
+        </div>
+        <a href="#features" class="hero-secondary-link">See what's inside →</a>
       </div>
     </div>
   </section>
@@ -720,7 +895,7 @@
       <div class="stat-label">VT Dining Items Tracked</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number">6+</div>
+      <div class="stat-number">8+</div>
       <div class="stat-label">Dining Halls Covered</div>
     </div>
     <div class="stat-item">
@@ -732,6 +907,35 @@
       <div class="stat-label">For Hokies</div>
     </div>
   </div>
+
+  <!-- SCREENSHOTS -->
+  <section id="screenshots">
+    <div class="screenshots-header">
+      <div class="section-label">App Screenshots</div>
+      <h2 class="section-title">See it in action</h2>
+      <p class="section-sub">A clean, fast interface designed to get out of your way and let you focus on your goals.</p>
+    </div>
+    <div class="screenshots-row">
+      <div class="screenshot-item">
+        <div class="screenshot-frame">
+          <img src="screenshot3.png" alt="Choose Dining Hall screen" />
+        </div>
+        <div class="screenshot-caption">Browse Dining Halls</div>
+      </div>
+      <div class="screenshot-item">
+        <div class="screenshot-frame center">
+          <img src="screenshot1.png" alt="HokieCals home dashboard" />
+        </div>
+        <div class="screenshot-caption">Daily Dashboard</div>
+      </div>
+      <div class="screenshot-item">
+        <div class="screenshot-frame">
+          <img src="screenshot2.png" alt="Progress tracking screen" />
+        </div>
+        <div class="screenshot-caption">Progress Tracking</div>
+      </div>
+    </div>
+  </section>
 
   <!-- FEATURES -->
   <section id="features">
@@ -767,9 +971,9 @@
         <p>Log your weight over time, upload progress photos, and view weekly and monthly summaries to stay motivated and on track.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Log in Seconds</h3>
-        <p>What used to take 10 minutes of manually entering data into MyFitnessPal now takes seconds. HokieCals is built for your busy student life.</p>
+        <div class="feature-icon">🔥</div>
+        <h3>Streaks & Motivation</h3>
+        <p>Build daily logging streaks to stay consistent. Your streak counter keeps you accountable and motivated throughout the semester.</p>
       </div>
     </div>
   </section>
@@ -823,7 +1027,7 @@
             <div class="why-check">✓</div>
             <div>
               <h4>Built by a VT Student</h4>
-              <p>HokieCals was created by a fellow Hokie who was frustrated by the same problem you have. It's built with students in mind.</p>
+              <p>HokieCals was created by a fellow Hokie who had the same problem. It's built for how students actually eat on campus.</p>
             </div>
           </li>
           <li>
@@ -858,20 +1062,44 @@
             <div class="mock-label" style="text-align:left; margin-bottom:6px;">Fat</div>
             <div class="mock-bar w40"></div>
           </div>
-          <div style="margin-top:12px; font-size:11px; color:var(--text-muted);">West End Dining • Today</div>
+          <div style="margin-top:12px; font-size:11px; color:var(--text-muted);">West End Dining · Today</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- CTA BANNER -->
-  <div class="cta-banner">
-    <h2>Start tracking smarter today</h2>
-    <p>Download HokieCals for free and never manually enter a dining hall meal again.</p>
-    <a href="#" class="btn-white">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-      Download on the App Store
-    </a>
+  <div class="cta-banner" id="notify">
+    <h2>Be the first to know when it drops</h2>
+    <p>The app launches in less than 48 hours. Sign up and we'll send you a direct link the moment it's live on the App Store.</p>
+
+    <div class="countdown-wrapper" style="margin-bottom: 28px;">
+      <div class="countdown-label" style="color: rgba(255,255,255,0.9);">Launching In</div>
+      <div class="countdown-timer">
+        <div class="countdown-unit">
+          <div class="countdown-digit" id="cta-hours" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.25);">48</div>
+          <div class="countdown-unit-label" style="color:rgba(255,255,255,0.6);">Hours</div>
+        </div>
+        <div class="countdown-sep" style="color:rgba(255,255,255,0.5);">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-digit" id="cta-minutes" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.25);">00</div>
+          <div class="countdown-unit-label" style="color:rgba(255,255,255,0.6);">Minutes</div>
+        </div>
+        <div class="countdown-sep" style="color:rgba(255,255,255,0.5);">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-digit" id="cta-seconds" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.25);">00</div>
+          <div class="countdown-unit-label" style="color:rgba(255,255,255,0.6);">Seconds</div>
+        </div>
+      </div>
+    </div>
+
+    <form class="signup-form" id="cta-form" onsubmit="handleSignup(event, 'cta')" style="margin: 0 auto; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25);">
+      <input type="email" placeholder="Enter your email..." required style="color:#fff;" />
+      <button type="submit" style="background:#fff; color:var(--maroon);">Notify Me</button>
+    </form>
+    <div class="signup-success" id="cta-success" style="margin-top: 16px; justify-content: center; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;">
+      ✓ You're on the list! We'll email you the moment it's live.
+    </div>
   </div>
 
   <!-- SUPPORT -->
@@ -914,7 +1142,7 @@
         </div>
         <div class="faq-item">
           <div class="faq-q">Which dining halls are supported?</div>
-          <div class="faq-a">HokieCals supports all major Virginia Tech dining locations, including West End Market, D2 (Dietrick), Turner Place, Hokie Grill, and more. We update the menu data regularly.</div>
+          <div class="faq-a">HokieCals supports all major Virginia Tech dining locations, including West End Market, D2 (Dietrick), Turner Place, Hokie Grill, Squires, and more. We update the menu data regularly.</div>
         </div>
         <div class="faq-item">
           <div class="faq-q">How is my calorie goal calculated?</div>
@@ -939,10 +1167,11 @@
   <!-- FOOTER -->
   <footer>
     <a href="#" class="footer-logo">
-      <div class="footer-logo-icon">HC</div>
+      <img src="logo.png" alt="HokieCals Logo" class="footer-logo-img" />
       <span class="footer-logo-text">HokieCals</span>
     </a>
     <ul class="footer-links">
+      <li><a href="#screenshots">Screenshots</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#how-it-works">How It Works</a></li>
       <li><a href="#support">Support</a></li>
@@ -951,6 +1180,62 @@
     </ul>
     <span class="footer-copy">© 2026 HokieCals. Not affiliated with Virginia Tech.</span>
   </footer>
+
+  <script>
+    // ── COUNTDOWN TIMER ──
+    // Set launch time to 48 hours from the first visit (stored in localStorage)
+    function getLaunchTime() {
+      const stored = localStorage.getItem('hokiecals_launch_time');
+      if (stored) return parseInt(stored, 10);
+      const launch = Date.now() + (48 * 60 * 60 * 1000);
+      localStorage.setItem('hokiecals_launch_time', launch);
+      return launch;
+    }
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function updateCountdown() {
+      const launch = getLaunchTime();
+      const now = Date.now();
+      const diff = Math.max(0, launch - now);
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      const hStr = pad(hours);
+      const mStr = pad(minutes);
+      const sStr = pad(seconds);
+
+      document.getElementById('hero-hours').textContent = hStr;
+      document.getElementById('hero-minutes').textContent = mStr;
+      document.getElementById('hero-seconds').textContent = sStr;
+
+      document.getElementById('cta-hours').textContent = hStr;
+      document.getElementById('cta-minutes').textContent = mStr;
+      document.getElementById('cta-seconds').textContent = sStr;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ── EMAIL SIGNUP ──
+    function handleSignup(e, source) {
+      e.preventDefault();
+      const form = document.getElementById(source + '-form');
+      const success = document.getElementById(source + '-success');
+      const email = form.querySelector('input[type="email"]').value;
+
+      // Store locally (in production, send to a backend/Formspree/etc.)
+      const signups = JSON.parse(localStorage.getItem('hokiecals_signups') || '[]');
+      if (!signups.includes(email)) signups.push(email);
+      localStorage.setItem('hokiecals_signups', JSON.stringify(signups));
+
+      form.style.display = 'none';
+      success.classList.add('visible');
+    }
+  </script>
 
 </body>
 </html>
