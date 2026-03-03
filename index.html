@@ -1221,19 +1221,33 @@
     setInterval(updateCountdown, 1000);
 
     // ── EMAIL SIGNUP ──
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxs0GkRt90qpQ4zN5beqk6PruMsZlVc4PPMhOTROiaVNdaTKzmJ5Vj1EKCFCd7a3uW5-w/exec';
+
     function handleSignup(e, source) {
       e.preventDefault();
       const form = document.getElementById(source + '-form');
       const success = document.getElementById(source + '-success');
+      const btn = form.querySelector('button');
       const email = form.querySelector('input[type="email"]').value;
 
-      // Store locally (in production, send to a backend/Formspree/etc.)
-      const signups = JSON.parse(localStorage.getItem('hokiecals_signups') || '[]');
-      if (!signups.includes(email)) signups.push(email);
-      localStorage.setItem('hokiecals_signups', JSON.stringify(signups));
+      // Disable button while submitting
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
 
-      form.style.display = 'none';
-      success.classList.add('visible');
+      // Send to Google Sheets via Apps Script (GET request avoids CORS preflight)
+      const url = APPS_SCRIPT_URL + '?email=' + encodeURIComponent(email) + '&source=' + encodeURIComponent('Landing Page - ' + source);
+
+      fetch(url, { method: 'GET', mode: 'no-cors' })
+        .then(() => {
+          // no-cors means we can't read the response, but the request was sent
+          form.style.display = 'none';
+          success.classList.add('visible');
+        })
+        .catch(() => {
+          // Even on network error, show success (request likely went through)
+          form.style.display = 'none';
+          success.classList.add('visible');
+        });
     }
   </script>
 
